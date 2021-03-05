@@ -2,35 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Plyr demo</title>
-
-    <script>
-    </script>
+    <link rel="stylesheet" type="text/css" href="../dist/plyr.css" />
+    <title>Plyr </title>
   </head>
 
   <body>
     <div class="grid">
       <main>
         <div id="container">
-          <video
-            controls
-            crossorigin
-            playsinline
+          <video controls crossorigin playsinline
             data-poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
-            id="player"
-          >
-            <!-- Video files -->
-            <source
-              src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-              type="video/mp4"
-              size="576"
-            />
+            id="player" > </video>
 
-          </video>
         </div>
-
       </main>
     </div>
-
+    <script src="../dist/plyr.polyfilled.js"></script>
+    <script>
+      const controls = ['play', 'progress', 'current-time', 'settings', 'fullscreen'];
+      var vplayer = new Plyr('#player', {controls});
+      vplayer.source = {
+					  type: 'video',
+					  title: 'demo',
+					  sources: [
+					    {
+					      src: "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4",
+					      type: 'video/mp4'
+					    }
+					  ]
+					};
+    </script>
   </body>
 </html>
