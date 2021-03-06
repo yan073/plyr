@@ -340,17 +340,10 @@ const controls = {
 
   // Create a <progress>
   createProgressMarker(type, attributes) {
-    const marker = createElement(
-      'div',
-      extend(
-        getAttributesFromSelector(this.config.selectors.display[type]),
-        {
-          class: 'progress-marker',
-        },
-        attributes,
-      ),
-    );
-
+    const marker = createElement( 'div', {
+      class: 'plyr__progress__marker marker-style-1',
+    });
+    marker.style.right = '40%';
     return marker;
   },
 

@@ -92,3 +92,11 @@ $plyr-progress-offset: $plyr-range-thumb-height;
 .plyr--audio.plyr--loading .plyr__progress__buffer {
   background-color: $plyr-audio-progress-buffered-background;
 }
+
+.plyr__progress__marker {
+  background: red;
+  height: 20px;
+  position: absolute;
+  width: 8px;
+}
+
