@@ -339,6 +339,22 @@ const controls = {
   },
 
   // Create a <progress>
+  createProgressMarker(type, attributes) {
+    const marker = createElement(
+      'div',
+      extend(
+        getAttributesFromSelector(this.config.selectors.display[type]),
+        {
+          class: 'progress-marker',
+        },
+        attributes,
+      ),
+    );
+
+    return marker;
+  },
+
+  // Create a <progress>
   createProgress(type, attributes) {
     const progress = createElement(
       'progress',
@@ -1259,6 +1275,7 @@ const controls = {
       setQualityMenu,
       setSpeedMenu,
       showMenuPanel,
+      createProgressMarker,
     } = controls;
     this.elements.controls = null;
 
@@ -1313,6 +1330,7 @@ const controls = {
 
         // Buffer progress
         progress.appendChild(createProgress.call(this, 'buffer'));
+        progress.appendChild(createProgressMarker.call(this, 'marker'));
 
         // TODO: Add loop display indicator
 
