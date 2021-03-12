@@ -340,11 +340,20 @@ const controls = {
 
   // Create a <progress>
   createProgressMarker(type, attributes) {
-    const marker = createElement( 'div', {
-      class: 'plyr__progress__marker marker-style-1',
-    });
-    marker.style.right = '40%';
-    return marker;
+    const m_container = createElement( 'div', {
+      class: 'plyr__progress__marker_container',
+    } );
+    if (this.markers) {
+      for(const m of this.markers) {
+        const ms = 'marker-style-' + m.style;
+        const marker = createElement( 'div', {
+          class: 'plyr__progress__marker ' + ms,
+        });
+        marker.style.left = (m.value * 100).toString()  + '%';
+        m_container.appendChild(marker);
+      }
+    }
+    return m_container;
   },
 
   // Create a <progress>
