@@ -31,8 +31,8 @@
     </div>
     <script src="../dist/plyr.polyfilled.js"></script>
     <script>
-      const controls = ['play', 'progress', 'current-time', 'settings', 'fullscreen'];
-      var vplayer = new Plyr('#player', {controls});
+      const controls = ['play', 'progress', 'current-time', 'settings', 'fullscreen', 'fast-forward', 'rewind'];
+      var vplayer = new Plyr('#player', {hideControls:false, controls, tooltips: {controls: true, seek: true,}});
       vplayer.source = {
 					  type: 'video',
 					  title: 'demo',

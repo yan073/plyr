@@ -99,6 +99,7 @@ const defaults = {
   tooltips: {
     controls: false,
     seek: true,
+    marker: true,
   },
 
   // Captions settings
@@ -150,10 +151,10 @@ const defaults = {
   // Localisation
   i18n: {
     restart: 'Restart',
-    rewind: 'Rewind {seektime}s',
+    rewind: 'Rewind to last marker',
     play: 'Play',
     pause: 'Pause',
-    fastForward: 'Forward {seektime}s',
+    fastForward: 'Forward to next marker',
     seek: 'Seek',
     seekLabel: '{currentTime} of {duration}',
     played: 'Played',

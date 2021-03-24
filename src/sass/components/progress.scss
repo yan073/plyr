@@ -94,10 +94,10 @@ $plyr-progress-offset: $plyr-range-thumb-height;
 }
 
 .plyr__progress__marker {
-  background: red;
-  height: 20px;
   position: absolute;
-  top: 0;
   width: 3px;
+  background: yellow;
+  height: 15px;
+  top: 0;
 }
 
