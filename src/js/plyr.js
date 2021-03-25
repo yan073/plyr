@@ -45,6 +45,7 @@ class Plyr {
     this.ready = false;
     this.loading = false;
     this.failed = false;
+    this.stoppingPercentages = [];
 
     // Touch device
     this.touch = support.touch;
@@ -444,17 +445,70 @@ class Plyr {
 
   /**
    * Rewind
+   * If there is a stoppable marker in the back, rewind to that marker;
+   * Otherwise, rewind by seekTime
    * @param {Number} seekTime - how far to rewind in seconds. Defaults to the config.seekTime
    */
   rewind = (seekTime) => {
+    if (this.stoppingPercentages.length>0 && this.duration && this.duration >0) {
+      const pc = this.currentTime / this.duration;
+      const lastStop = this.searchMaximumStopLessThan(pc, 0, this.stoppingPercentages.length-1);
+      if (lastStop >0) {
+        this.currentTime = this.duration * lastStop;
+        return;
+      }
+    }
     this.currentTime -= is.number(seekTime) ? seekTime : this.config.seekTime;
   };
 
+  searchMaximumStopLessThan = (pc, start, end) => {
+    if (end > start) {
+      const middle = Math.floor((start + end) / 2);
+      if (this.stoppingPercentages[middle] < pc) {
+        const next = this.searchMaximumStopLessThan(pc, middle+1, end);
+        return next > 0 ? next: this.stoppingPercentages[middle];
+      }
+      else {
+        return this.searchMaximumStopLessThan(pc, start, middle -1);
+      }
+    }
+    else if (start == end) {
+      if (this.stoppingPercentages[start] < pc) return this.stoppingPercentages[start];
+    }
+    return -1;
+  }
+
+  searchMinStopGreaterThan = (pc, start, end) => {
+    if (end > start) {
+      const middle = Math.floor((start + end) / 2);
+      if (this.stoppingPercentages[middle] > pc) {
+        const previous = this.searchMinStopGreaterThan(pc, 0, middle-1);
+        return previous > 0 ? next: this.stoppingPercentages[middle];
+      }
+      else {
+        return this.searchMinStopGreaterThan(pc, middle +1, end);
+      }
+    }
+    else if (start == end) {
+      if (this.stoppingPercentages[start] > pc) return this.stoppingPercentages[start];
+    }
+    return -1;
+  }
   /**
    * Fast forward
+   * If there is a stoppable marker forwards, move to the closest stoppable marker forwards;
+   * Otherwise, forward by seekTime
    * @param {Number} seekTime - how far to fast forward in seconds. Defaults to the config.seekTime
    */
   forward = (seekTime) => {
+    if (this.stoppingPercentages.length>0 && this.duration && this.duration >0) {
+      const pc = this.currentTime / this.duration;
+      const nextStop = this.searchMinStopGreaterThan(pc, 0, this.stoppingPercentages.length-1);
+      if (nextStop >0) {
+        this.currentTime = this.duration * nextStop;
+        return;
+      }
+    }
     this.currentTime += is.number(seekTime) ? seekTime : this.config.seekTime;
   };
 
@@ -839,6 +893,9 @@ class Plyr {
    */
   set source(input) {
     source.change.call(this, input);
+    if (this.markers) {
+      this.stoppingPercentages = this.markers.filter(m => m.stop).map( m => m.value ).sort((a,b)=> a-b);
+    }
   }
 
   /**

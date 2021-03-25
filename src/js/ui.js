@@ -33,12 +33,6 @@ const ui = {
     // TODO: Use event bubbling?
     this.listeners.media();
 
-    if (this.markers) {
-      console.log(this.markers);
-    }
-    else {
-      console.log('there is no marker.');
-    }
     // Don't setup interface if no support
     if (!this.supported.ui) {
       this.debug.warn(`Basic support only for ${this.provider} ${this.type}`);
