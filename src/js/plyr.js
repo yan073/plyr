@@ -483,7 +483,7 @@ class Plyr {
       const middle = Math.floor((start + end) / 2);
       if (this.stoppingPercentages[middle] > pc) {
         const previous = this.searchMinStopGreaterThan(pc, 0, middle-1);
-        return previous > 0 ? next: this.stoppingPercentages[middle];
+        return previous > 0 ? previous: this.stoppingPercentages[middle];
       }
       else {
         return this.searchMinStopGreaterThan(pc, middle +1, end);
