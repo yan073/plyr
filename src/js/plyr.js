@@ -451,7 +451,7 @@ class Plyr {
    */
   rewind = (seekTime) => {
     if (this.stoppingPercentages.length>0 && this.duration && this.duration >0) {
-      const pc = this.currentTime / this.duration;
+      const pc = (this.currentTime - 0.001)/ this.duration ; // move little bit back to avoid stuck due to floating point precision
       const lastStop = this.searchMaximumStopLessThan(pc, 0, this.stoppingPercentages.length-1);
       if (lastStop >0) {
         this.currentTime = this.duration * lastStop;
@@ -502,7 +502,7 @@ class Plyr {
    */
   forward = (seekTime) => {
     if (this.stoppingPercentages.length>0 && this.duration && this.duration >0) {
-      const pc = this.currentTime / this.duration;
+      const pc = (this.currentTime + 0.001) / this.duration; // move little bit forward to avoid stuck due to floating point precision
       const nextStop = this.searchMinStopGreaterThan(pc, 0, this.stoppingPercentages.length-1);
       if (nextStop >0) {
         this.currentTime = this.duration * nextStop;
