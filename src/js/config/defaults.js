@@ -392,6 +392,8 @@ const defaults = {
       scrubbingContainer: 'plyr__preview-scrubbing',
       scrubbingContainerShown: 'plyr__preview-scrubbing--is-shown',
     },
+    markerContainer : 'plyr__progress__marker_container',
+    progressMarker : 'plyr__progress__marker',
   },
 
   // Embed attributes

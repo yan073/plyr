@@ -341,13 +341,13 @@ const controls = {
   // Create a <progress>
   createProgressMarker(type, attributes) {
     const m_container = createElement( 'div', {
-      class: 'plyr__progress__marker_container',
+      class: this.config.classNames.markerContainer,
     } );
     if (this.markers) {
       for(const m of this.markers) {
         const ms = 'marker-style-' + m.style;
         const marker = createElement( 'div', {
-          class: 'plyr__progress__marker ' + ms,
+          class: this.config.classNames.progressMarker + ' ' + ms,
         });
         marker.style.left = (m.value * 100).toString()  + '%';
         m_container.appendChild(marker);
@@ -743,9 +743,27 @@ const controls = {
       percent = 100;
     }
 
-    // Display the time a click would seek to
-    controls.updateTimeDisplay.call(this, this.elements.display.seekTooltip, (this.duration / 100) * percent);
+    let hitMarker = null;
 
+    if (is.event(event)) {
+        const container = Array.from(this.elements.progress.children)
+            .find((node) => hasClass(node, this.config.classNames.markerContainer));
+        hitMarker = Array.from(container.children)
+            .find((node) => {
+                if (hasClass(node, this.config.classNames.progressMarker)) {
+                  const rect = node.getBoundingClientRect();
+                  return event.pageX >= rect.left && event.pageX <= rect.right;
+                }
+                return false;
+            });
+    }
+    if (hitMarker) {
+      this.elements.display.seekTooltip.innerText = 'marker tooltip';
+    }
+    else {
+        // Display the time a click would seek to
+        controls.updateTimeDisplay.call(this, this.elements.display.seekTooltip, (this.duration / 100) * percent);
+    }
     // Set position
     this.elements.display.seekTooltip.style.left = `${percent}%`;
 
