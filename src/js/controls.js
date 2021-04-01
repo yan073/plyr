@@ -761,9 +761,12 @@ const controls = {
                 return false;
             });
     }
+    let markerText = null;
     if (hitMarker && this.markerElementMap.has(hitMarker)) {
-        const mData = this.markerElementMap.get(hitMarker);
-        this.elements.display.seekTooltip.innerText = mData.text;
+        markerText = this.markerElementMap.get(hitMarker).text;
+    }
+    if (markerText && markerText.length >0 ) {
+      this.elements.display.seekTooltip.innerText = markerText;
     }
     else {
         // Display the time a click would seek to
