@@ -343,6 +343,9 @@ const controls = {
     const m_container = createElement( 'div', {
       class: this.config.classNames.markerContainer,
     } );
+    if(this.markerElementMap) {
+      this.markerElementMap.clear();
+    }
     if (this.markers) {
       for(const m of this.markers) {
         const ms = 'marker-style-' + m.style;
@@ -351,6 +354,7 @@ const controls = {
         });
         marker.style.left = (m.value * 100).toString()  + '%';
         m_container.appendChild(marker);
+        this.markerElementMap.set(marker, m);
       }
     }
     return m_container;
@@ -757,8 +761,9 @@ const controls = {
                 return false;
             });
     }
-    if (hitMarker) {
-      this.elements.display.seekTooltip.innerText = 'marker tooltip';
+    if (hitMarker && this.markerElementMap.has(hitMarker)) {
+        const mData = this.markerElementMap.get(hitMarker);
+        this.elements.display.seekTooltip.innerText = mData.text;
     }
     else {
         // Display the time a click would seek to

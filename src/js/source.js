@@ -67,6 +67,7 @@ const source = {
           // Create new element
           media: createElement(tagName, attributes),
           markers: input.markers,
+          markerElementMap: new Map(),
         });
 
         // Inject the new element
@@ -124,7 +125,6 @@ const source = {
         // If HTML5 or embed but not fully supported, setupInterface and call ready now
         if (this.isHTML5 || (this.isEmbed && !this.supported.ui)) {
           // Setup interface
-          console.log('ui.build is called in source.js, line 126.');
           ui.build.call(this);
         }
 
